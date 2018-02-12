@@ -12,14 +12,13 @@ Note: Several of the attributes in the database could be used as a "class" attri
 Attribute Information:
 Attribute: Attribute Range 
 
-1. symboling: -3, -2, -1, 0, 1, 2, 3. 
+*1. symboling: -3, -2, -1, 0, 1, 2, 3. 
 2. normalized-losses: continuous from 65 to 256. 
 3. make: 
 alfa-romero, audi, bmw, chevrolet, dodge, honda, 
 isuzu, jaguar, mazda, mercedes-benz, mercury, 
 mitsubishi, nissan, peugot, plymouth, porsche, 
 renault, saab, subaru, toyota, volkswagen, volvo 
-
 4. fuel-type: diesel, gas. 
 5. aspiration: std, turbo. 
 6. num-of-doors: four, two. 
@@ -42,4 +41,4 @@ renault, saab, subaru, toyota, volkswagen, volvo
 23. peak-rpm: continuous from 4150 to 6600. 
 24. city-mpg: continuous from 13 to 49. 
 25. highway-mpg: continuous from 16 to 54. 
-26. price: continuous from 5118 to 45400.
+26. price: continuous from 5118 to 45400.*
