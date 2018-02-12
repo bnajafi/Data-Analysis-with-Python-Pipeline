@@ -94,8 +94,56 @@ Drop the whole row:
 # So first let's first calculate the avarage of normalized losses
 
 avg_normalized_losses = df["normalized-losses"].astype("float").mean()
+# Now we should use replace to replace the nan values with the determiend average
+df["normalized-losses"].replace(np.nan, avg_normalized_losses,inplace=True)
+
+# We can do the same for the stroke, bore, peak-rpm    
     
-    
+avg_stroke = df["stroke"].astype("float").mean()
+df["stroke"].replace(np.nan, avg_stroke,inplace=True)
+
+avg_bore = df["bore"].astype("float").mean()
+df["bore"].replace(np.nan, avg_bore,inplace=True)
+
+avg_horsepower= df["horsepower"].astype("float").mean()
+df["horsepower"].replace(np.nan, avg_horsepower,inplace=True)
+
+avg_horsepower= df["horsepower"].astype("float").mean()
+df["horsepower"].replace(np.nan, avg_horsepower,inplace=True)
+
+avg_peak_rpm= df["peak-rpm"].astype("float").mean()
+df["peak-rpm"].replace(np.nan, avg_peak_rpm,inplace=True)
+
+
+
+
+# Now let's see what we can do with the missing values of categorical variables: number of doors
+# To see number of each values present in a paarticular column as we saw we can use .value_counts()
+df["num-of-doors"].value_counts()
+MostFrquent_num_of_doors = df["num-of-doors"].value_counts().idxmax()
+
+df["num-of-doors"].replace(np.nan, MostFrquent_num_of_doors, inplace=True)
+
+# For the case of the price, we simply drop the whole rows for which we do not have the value
+df.dropna(subset=["price"],axis=0, inplace=True)
+
+# We have to reset the index because we dropped some rows
+df.reset_index(drop=True, inplace=True)
+
+df.head()
+
+
+# to make sure that we have correctly dealt with all of the values, we can see the following
+missingValues = df.isnull() 
+missing_value_count_toCheck=pd.Series()
+for column in missingValues.columns: 
+    if True in missingValues[column].value_counts().index:
+        missing_value_count_toCheck[column]= missingValues[column].value_counts()[True]
+    else:
+        missing_value_count_toCheck[column] = 0
+missing_value_count_toCheck
+
+# We can see that no missing value has remained in the dataset
     
 # Before proceeding, as we previously saw the data format of some rows should be changed. First , let's have a look
 df.dtypes
