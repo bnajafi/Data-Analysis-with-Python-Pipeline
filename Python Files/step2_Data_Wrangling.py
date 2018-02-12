@@ -17,6 +17,7 @@ df = pd.read_csv(url, names =givenHeader )
 
 df.head()
 
+
 # Now we would like to see the ways we can deal with the missing data
 # First, we should see how to identify the missing data
 
@@ -55,17 +56,53 @@ result = missingValues["normalized-losses"].value_counts()
 # So we can now write a for loop that find the number of missing values of each column
 missing_value_count=pd.Series()
 for column in missingValues.columns: 
-    #print column+" has the following number of missing values"
     if True in missingValues[column].value_counts().index:
         missing_value_count[column]= missingValues[column].value_counts()[True]
     else:
         missing_value_count[column] = 0
 
         
-        
-        
+# How to deal with missing values
+# whiel dealing with missing values, we have several options 
+# 1 droping the data which can be droping the whole row or dropping the whole column:
+# droping the whole column only make sense in case most of the entries in that column are missing which is not the case for our dataset.
 
+# 2 the second apprach is replacing the data: whcih can involve replacing it by the mean of that column, replacing it with the most frequent item of  of the colmn or replacing using other functions
+# each of these approaches can be used based on the properties of the data given in each column 
 
-missing_value_count.head()
+"""
+ We will apply each method to many different columns:
 
+Replace by mean:
+"normalized-losses": 41 missing data, replace them with mean
+"stroke": 4 missing data, replace them with mean
+"bore": 4 missing data, replace them with mean
+"horsepower": 2 missing data, replace them with mean
+"peak-rpm": 2 missing data, replace them with mean
+
+Replace by frequency:
+
+"num-of-doors": 2 missing data, replace them with "four". 
+    * Reason: 84% sedans is four doors. Since four doors is most frequent, it is most likely to 
+
+Drop the whole row:
+
+"price": 4 missing data, simply delete the whole row
+    * Reason: price is what we want to predict. Any data entry without price data cannot be used for prediction; therefore they are not useful to us
+    
+    """
+# So first let's first calculate the avarage of normalized losses
+
+avg_normalized_losses = df["normalized-losses"].astype("float").mean()
+    
+    
+    
+# Before proceeding, as we previously saw the data format of some rows should be changed. First , let's have a look
+df.dtypes
+
+# So we can see that the format of bore, stroke, price, peak-rpm, should be converted to "float"
+# the foramt of normalized-losses instead should be con eerted to int  so:
+df[["bore","stroke","price", "peak-rpm"]] =  df[["bore","stroke","price", "peak-rpm"]].astype("float")
+df["normalized-losses"] =  df["normalized-losses"].astype("int")
+df.dtypes
 
