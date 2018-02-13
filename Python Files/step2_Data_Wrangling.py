@@ -186,4 +186,14 @@ groupNames = ["Low","Medium", "High"]
 df["horsepower-binned"]= pd.cut(df["horsepower"],bins, labels=groupNames, include_lowest= True)
 df[["horsepower","horsepower-binned"]].head(30)
 
+# Another way of showing the numbers in a binned way, is employing histogram
 
+import matplotlib.pyplot as plt
+
+# draw historgram of attribute "horsepower" with bins = 3
+plt.hist(df["horsepower"], bins = 3)
+
+# set x/y labels and plot title
+plt.xlabel("horsepower")
+plt.ylabel("count")
+plt.title("horsepower bins")
