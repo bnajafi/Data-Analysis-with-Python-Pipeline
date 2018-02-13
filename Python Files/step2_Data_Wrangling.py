@@ -8,7 +8,7 @@ givenHeader = ["symboling","normalized-losses","make","fuel-type","aspiration",
 "num-of-doors","body-style","drive-wheels","engine-location","wheel-base","length",
 "width","height","curb-weight","engine-type","num-of-cylinder","engine-size",
 "fuel-system","bore","stroke","compression-ratio","horsepower","peak-rpm",
-"city-mpg"," highway-mpg","price"]
+"city-mpg","highway-mpg","price"]
 
 
 df = pd.read_csv(url, names =givenHeader )
@@ -153,4 +153,37 @@ df.dtypes
 df[["bore","stroke","price", "peak-rpm"]] =  df[["bore","stroke","price", "peak-rpm"]].astype("float")
 df["normalized-losses"] =  df["normalized-losses"].astype("int")
 df.dtypes
+
+# NOw let's standardize some of the columns, we would like to convert city-mpg and highway-mpg into L/100km units, to do so:
+df["city-L/100km"] = 235/df["city-mpg"]
+df["highway-L/100km"] = 235/df["highway-mpg"]
+
+df.head()
+
+# In the next stepl we can go through some data normalization procedure in which we convert the height, width and length to values between 0 and 1.
+# To do so, we simply divide the values of each column by the maximum value of that column
+
+df['length'] = df['length']/df['length'].max()
+df['width'] = df['width']/df['width'].max()
+df['height'] = df['height']/df['height'].max()
+
+"""
+##Binning
+
+Binning is a process of transforming continuous numerical variables into discrete categorical 'bins'.
+An example, in our dataset, we can categorize the cars which have high, medium or low horsepower,
+so we have to convert the horsepower variable which is a continuos number into three categorical variables.
+
+"""
+ # To do so we should first calculate the width of a bin
+ 
+df["horsepower"]=df["horsepower"].astype(float, copy=True)
+binwidth = (max(df["horsepower"])-min(df["horsepower"]))/4
+bins = np.arange(min(df["horsepower"]),max(df["horsepower"]),binwidth)
+
+groupNames = ["Low","Medium", "High"]
+
+df["horsepower-binned"]= pd.cut(df["horsepower"],bins, labels=groupNames, include_lowest= True)
+df[["horsepower","horsepower-binned"]].head(30)
+
 
