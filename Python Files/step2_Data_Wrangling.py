@@ -197,3 +197,22 @@ plt.hist(df["horsepower"], bins = 3)
 plt.xlabel("horsepower")
 plt.ylabel("count")
 plt.title("horsepower bins")
+
+
+# Converting unique values into dummy(indicator) variables
+# In order to use the unquie values of some columns as categorical variables which are later used in the regression analysis, we have to first convert them into dummy variables
+# dummy variables are numerical variables that represent categories.
+#Example, the column "fuel-type" has two unique values, "gas" or "diesel". 
+#Regression doesn't understand words, only numbers. To use this attribute in regression analysis, we convert "fuel-type" into indicator variables.
+dummy_variables_fuelType= pd.get_dummies(df["fuel-type"])
+dummy_variables_fuelType.head(5)
+dummy_variables_fuelType.rename(columns={"gas":'fuel-type-diesel',"diesel":'fuel-type-diesel'}, inplace=True)
+
+df= pd.concat([df, dummy_variables_fuelType],axis=1)
+df.head()
+
+# We can finally save this formatted dataset
+import os
+os.chdir("C:/Users/behzad/Dropbox/6 EduMaterial_PYTHON_DataAnalysis/Data-Analysis-with-Python-Pipeline/DataSet")
+
+df.to_csv("car_dataset_formatted_after_step2.csv")
