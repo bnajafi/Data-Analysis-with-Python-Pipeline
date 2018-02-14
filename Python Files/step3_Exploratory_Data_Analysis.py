@@ -194,8 +194,45 @@ plt.xticks(rotation=90)
 
 fig.colorbar(im)
 plt.show()
+"""
+
+Anova (Analysis of Variance): Determining the correaltion of a categorical variable with a numerical target
+
+The Analysis of Variance (ANOVA) is a statistical method used to test whether there are significant differences between the means of two or more groups. 
+ANOVA returns two parameters: F-test score: ANOVA assumes the means of all groups are the same, calculates how much the actual means deviate from the assumption, 
+and reports it as the F-test score. A larger score means there is a larger difference between the means. P-value: P-value tells how statistically significant is our calculated score value 
+If our price variable is strongly correlated with the variable we are analyzing, expect ANOVA to return a sizeable F-test score and a small p-value.
+"""
+#Extracting the groups using groupby()
+
+#The first step is extracting a group using groupby(): to do so we can use the get_group() method.
 
 
-df_driveWheels_price = df[["drive-wheels","body-styple","price"]]
-df_price_groupby_driveWheel= df_driveWheels_price.groupby(["drive-wheels"])
-df_driveWheels_price.head()
+df_driveWheels_price = df[["drive-wheels","price"]]
+df_price_groupedby_drive_wheels = df_driveWheels_price.groupby(["drive-wheels"])
+df_price_groupedby_drive_wheels.head(2)
+
+
+
+df_price_groupedby_drive_wheels.get_group("4wd")["price"]
+
+
+# implement anova for three groups
+
+f_val, p_val = stats.f_oneway(df_price_groupedby_drive_wheels.get_group('fwd')['price'], df_price_groupedby_drive_wheels.get_group('rwd')['price'], df_price_groupedby_drive_wheels.get_group('4wd')['price'])  
+ 
+print( "ANOVA results for fwd, rwd, and 4wd : F=", f_val, ", P =", p_val)   
+
+# Now conducting Anova for the groups one by one 
+f_val, p_val = stats.f_oneway(df_price_groupedby_drive_wheels.get_group('fwd')['price'],  df_price_groupedby_drive_wheels.get_group('4wd')['price'])  
+ 
+print( "ANOVA results for fwd and 4wd: F=", f_val, ", P =", p_val) 
+
+f_val, p_val = stats.f_oneway(df_price_groupedby_drive_wheels.get_group('fwd')['price'], df_price_groupedby_drive_wheels.get_group('rwd')['price'])  
+ 
+print( "ANOVA results for fwd and rwd: F=", f_val, ", P =", p_val)  
+ 
+f_val, p_val = stats.f_oneway(df_price_groupedby_drive_wheels.get_group('rwd')['price'], df_price_groupedby_drive_wheels.get_group('4wd')['price'])  
+ 
+print( "ANOVA results for rwd, and 4wd : F=", f_val, ", P =", p_val) 
+
