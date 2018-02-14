@@ -148,3 +148,25 @@ engine_loc_counts.rename(columns={'engine-location': 'value_counts'}, inplace=Tr
 engine_loc_counts.index.name = 'engine-location'
 engine_loc_counts.head(10)
 
+
+# Grouping : Group by
+# The "groupby" method groups data by different categories. The data is grouped based on one or several variables and analysis is performed on the individual groups.
+#or example, let's group by the variable "drive-wheels". We see that there are 3 different categories of drive wheels.
+
+df["drive-wheels"].unique()
+
+#f we want to know, on average, which type of drive wheel is most valuable, we can group "drive-wheels" and then average them.
+
+#we can select the columns 'drive-wheels','body-style' and 'price' , then assign it to the variable "df_group_one".
+
+
+df_three_columns = df[["drive-wheels","body-style","price"]]
+
+df_three_columns_groupby_drive_wheels = df_three_columns.groupby(["drive-wheels"],as_index=  False).mean()
+
+df_three_columns_groupby_drive_wheels
+
+df_groupby_driveWheels_and_bodyStyle = df_three_columns.groupby(["drive-wheels", "body-style"],as_index=  False).mean()
+
+df_groupby_driveWheels_and_bodyStyle_pivot= df_groupby_driveWheels_and_bodyStyle.pivot(index= "drive-wheels", columns = "body-style")
+
