@@ -170,3 +170,32 @@ df_groupby_driveWheels_and_bodyStyle = df_three_columns.groupby(["drive-wheels",
 
 df_groupby_driveWheels_and_bodyStyle_pivot= df_groupby_driveWheels_and_bodyStyle.pivot(index= "drive-wheels", columns = "body-style")
 
+# in order to visualize the created pivot table in a better way, we can use a heat map.
+plt.figure()
+plt.pcolor(df_groupby_driveWheels_and_bodyStyle_pivot,cmap="RdBu")
+plt.colorbar()
+plt.show()
+
+
+# in order to improve this presentation, we can do the following:
+fig, ax=plt.subplots()
+im=ax.pcolor(df_groupby_driveWheels_and_bodyStyle_pivot, cmap='RdBu')
+#label names
+row_labels=df_groupby_driveWheels_and_bodyStyle_pivot.columns.levels[1]
+col_labels=df_groupby_driveWheels_and_bodyStyle_pivot.index
+#move ticks and labels to the center
+ax.set_xticks(np.arange(df_groupby_driveWheels_and_bodyStyle_pivot.shape[1])+0.5, minor=False)
+ax.set_yticks(np.arange(df_groupby_driveWheels_and_bodyStyle_pivot.shape[0])+0.5, minor=False)
+#insert labels
+ax.set_xticklabels(row_labels, minor=False)
+ax.set_yticklabels(col_labels, minor=False)
+#rotate label if too long
+plt.xticks(rotation=90)
+
+fig.colorbar(im)
+plt.show()
+
+
+df_driveWheels_price = df[["drive-wheels","body-styple","price"]]
+df_price_groupby_driveWheel= df_driveWheels_price.groupby(["drive-wheels"])
+df_driveWheels_price.head()
